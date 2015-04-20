@@ -29,7 +29,7 @@ public class BuildingManager {
     }
     
     private void createBuilding() {
-    
+        
     }
     
     private void placeBuilding() {

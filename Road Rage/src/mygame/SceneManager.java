@@ -67,7 +67,7 @@ public class SceneManager {
     public void update(float tpf) {
         
         int dirMult = 1;
-        moveSpeed   = 10;
+        moveSpeed   = 50;
         
         ground1.move(-moveSpeed*tpf*dirMult,0,0);
         ground2.move(-moveSpeed*tpf*dirMult,0,0);

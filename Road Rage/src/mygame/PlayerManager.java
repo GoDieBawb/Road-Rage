@@ -13,18 +13,20 @@ import com.jme3.app.SimpleApplication;
 public class PlayerManager {
     
     private Player player;
+    private SimpleApplication app;
     
     public PlayerManager(SimpleApplication app) {
-        createPlayer(app);
-        placePlayer(app);
+        this.app = app;
+        createPlayer();
+        placePlayer();
     }
     
-    private void placePlayer(SimpleApplication app) {
+    private void placePlayer() {
         app.getRootNode().attachChild(player);
         player.setLocalTranslation(-5,2f,0);
     }
     
-    private void createPlayer(SimpleApplication app) {
+    private void createPlayer() {
         player = new Player(app);
     }
     
@@ -34,15 +36,18 @@ public class PlayerManager {
     
     public void update(float tpf) {
         
+        app.getCamera().setLocation(player.getWorldTranslation().clone().add(-10,4,0));
+        float turnSpeed = 10;
+        
         if (player.getRight()) {
         
-            player.move(0,0,5f*tpf);
+            player.move(0,0,turnSpeed*tpf);
             
         }
         
         if (player.getLeft()) {
         
-            player.move(0,0,-5f*tpf);
+            player.move(0,0,-turnSpeed*tpf);
             
         }
         
