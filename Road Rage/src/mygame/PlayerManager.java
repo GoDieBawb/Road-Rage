@@ -5,6 +5,7 @@
 package mygame;
 
 import com.jme3.app.SimpleApplication;
+import java.util.Random;
 
 /**
  *
@@ -14,6 +15,7 @@ public class PlayerManager {
     
     private Player player;
     private SimpleApplication app;
+    private Long              lastShakeChange;
     
     public PlayerManager(SimpleApplication app) {
         this.app = app;
@@ -34,6 +36,14 @@ public class PlayerManager {
         return player;
     }
     
+    private int randInt(int min, int max) {
+        
+        Random rand = new Random();
+        int randomNum = rand.nextInt((max - min) + 1) + min;
+        return randomNum;
+        
+    }       
+    
     public void update(float tpf) {
         
         app.getCamera().setLocation(player.getWorldTranslation().clone().add(-10,4,0));
@@ -50,6 +60,21 @@ public class PlayerManager {
             player.move(0,0,-turnSpeed*tpf);
             
         }
+        
+        if (System.currentTimeMillis()/1000 - lastShakeChange/1000 > 3) {
+            
+            int chance      = randInt(1,2);
+            float shakeDir  = 1;
+            lastShakeChange = System.currentTimeMillis();
+            
+            if (chance==1)
+                shakeDir = -1;
+            
+            float shake     = randInt(0,4)*shakeDir; 
+            player.setShake(shake);
+            
+        }   
+        
         
     }
     

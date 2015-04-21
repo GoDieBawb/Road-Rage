@@ -6,7 +6,6 @@ package mygame;
 
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
-import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
@@ -27,12 +26,13 @@ public class SceneManager {
     private Node              ground2;
     private Player            player;
     private float             roadLength;
-    private float             moveSpeed;
+    private BuildingManager   buildingManager;
     
     public SceneManager(Application app, PlayerManager playerManager) {
-        this.app     = (SimpleApplication) app;
-        stateManager = app.getStateManager();
-        player       = playerManager.getPlayer();
+        this.app        = (SimpleApplication) app;
+        stateManager    = app.getStateManager();
+        player          = playerManager.getPlayer();
+        buildingManager = new BuildingManager(this.app);
         app.getViewPort().setBackgroundColor(ColorRGBA.DarkGray);
         createGround();
     }
@@ -66,11 +66,13 @@ public class SceneManager {
     
     public void update(float tpf) {
         
-        int dirMult = 1;
-        moveSpeed   = 50;
+        buildingManager.update(tpf);
         
-        ground1.move(-moveSpeed*tpf*dirMult,0,0);
-        ground2.move(-moveSpeed*tpf*dirMult,0,0);
+        int dirMult    = 1;
+        float moveSpeed = player.getMoveSpeed();
+        
+        ground1.move(-moveSpeed*tpf*dirMult,0,player.getShake());
+        ground2.move(-moveSpeed*tpf*dirMult,0,player.getShake());
         
         if (ground1.getWorldTranslation().x < -roadLength*2)
             ground1.setLocalTranslation(roadLength*2,0,0);

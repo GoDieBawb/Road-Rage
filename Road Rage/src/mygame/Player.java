@@ -14,11 +14,15 @@ import com.jme3.scene.Node;
  */
 public class Player extends Node {
     
-    private boolean right, left;
+    private boolean right, left, isDead;
+    private int     score;
     private Node    model;
+    private float   moveSpeed;
+    private float   shake;
     
     public Player(SimpleApplication app) {
         setModel(app);
+        moveSpeed = 50;
     }
     
     public void setRight(boolean newVal) {
@@ -46,6 +50,30 @@ public class Player extends Node {
     
     public void spinWheels() {
     
+    }
+    
+    public void setScore(int newVal) {
+        score = newVal;
+    }
+    
+    public int getScore() {
+        return score;
+    }
+    
+    public float getMoveSpeed() {
+        return moveSpeed;
+    }
+    
+    public void setMoveSpeed(float newVal) {
+        moveSpeed = newVal;
+    }
+    
+    public void setShake(float newVal) {
+        shake = newVal;
+    }
+    
+    public float getShake() {
+        return shake;
     }
     
 }
