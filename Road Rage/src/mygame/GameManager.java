@@ -43,8 +43,16 @@ public class GameManager extends AbstractAppState {
     
     @Override
     public void update(float tpf) {
+        
+        playerManager.getPlayer().getGui().update(tpf);
+        
+        if (playerManager.getPlayer().isDead()) {
+            return;
+        }
+        
         sceneManager.update(tpf);
         playerManager.update(tpf);
+        
     }
     
 }

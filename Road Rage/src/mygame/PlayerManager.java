@@ -21,6 +21,7 @@ public class PlayerManager {
         this.app = app;
         createPlayer();
         placePlayer();
+        lastShakeChange = System.currentTimeMillis();
     }
     
     private void placePlayer() {
@@ -70,7 +71,7 @@ public class PlayerManager {
             if (chance==1)
                 shakeDir = -1;
             
-            float shake     = randInt(0,4)*shakeDir; 
+            float shake     = randInt(0,1)*shakeDir; 
             player.setShake(shake);
             
         }   

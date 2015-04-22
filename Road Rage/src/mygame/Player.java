@@ -19,10 +19,17 @@ public class Player extends Node {
     private Node    model;
     private float   moveSpeed;
     private float   shake;
+    private Gui     gui;
     
     public Player(SimpleApplication app) {
         setModel(app);
+        gui       = new Gui(app, this);
         moveSpeed = 50;
+        isDead    = true;
+    }
+    
+    public Gui getGui() {
+        return gui;
     }
     
     public void setRight(boolean newVal) {
@@ -74,6 +81,14 @@ public class Player extends Node {
     
     public float getShake() {
         return shake;
+    }
+    
+    public void setIsDead(boolean newVal) {
+        isDead = newVal;
+    }
+    
+    public boolean isDead() {
+        return isDead;
     }
     
 }

@@ -41,7 +41,7 @@ public class SceneManager {
     
         roadLength       = 100;
         Material   mat   = app.getAssetManager().loadMaterial("Materials/Road.j3m");
-        Box box          = new Box(roadLength,2,6);
+        Box box          = new Box(roadLength,2,8);
         Geometry cube1   = new Geometry("Geometry", box);
         Geometry cube2   = new Geometry("Geometry", box);
                  ground1 = new Node("Ground One");
@@ -68,11 +68,10 @@ public class SceneManager {
         
         buildingManager.update(tpf);
         
-        int dirMult    = 1;
         float moveSpeed = player.getMoveSpeed();
         
-        ground1.move(-moveSpeed*tpf*dirMult,0,player.getShake());
-        ground2.move(-moveSpeed*tpf*dirMult,0,player.getShake());
+        ground1.move(-moveSpeed*tpf,0,0);
+        ground2.move(-moveSpeed*tpf,0,0);
         
         if (ground1.getWorldTranslation().x < -roadLength*2)
             ground1.setLocalTranslation(roadLength*2,0,0);

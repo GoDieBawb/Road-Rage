@@ -43,22 +43,20 @@ public class BuildingManager {
         Geometry geom1     = new Geometry("Geometry", b);
         Node leftBuilding  = new Node();
         Node rightBuilding = new Node();
+        Node buildingSet   = new Node();
         b.scaleTextureCoordinates(new Vector2f(1,1));
         geom.setMaterial(app.getAssetManager().loadMaterial("Materials/Building" + randInt(1,4) + ".j3m"));
         geom1.setMaterial(app.getAssetManager().loadMaterial("Materials/Building" + randInt(1,4) + ".j3m"));
         leftBuilding.attachChild(geom);
         rightBuilding.attachChild(geom1);
-        placeBuilding(leftBuilding, rightBuilding);
-    }
-    
-    private void placeBuilding(Node leftBuilding, Node rightBuilding) {
-    
-        Node buildingSet = new Node();
-        buildingSet.attachChild(leftBuilding);
-        buildingSet.attachChild(rightBuilding);
-        
         rightBuilding.setLocalTranslation(0,6,16 - randInt(0,4));
         leftBuilding.setLocalTranslation(0,6,-16 + randInt(0,4));
+        buildingSet.attachChild(leftBuilding);
+        buildingSet.attachChild(rightBuilding);
+        placeBuildingSet(buildingSet);
+    }
+    
+    private void placeBuildingSet(Node buildingSet) {
         
         buildingNode.attachChild(buildingSet);
         buildingSet.setLocalTranslation(200,0,0);
@@ -97,11 +95,12 @@ public class BuildingManager {
         for (int i = 0; i < buildingNode.getQuantity(); i++) {
             
             Node currentBuilding = (Node) buildingNode.getChild(i);
+            
             currentBuilding.move(-moveSpeed*tpf,0,p.getShake()*tpf);
             
-            if (currentBuilding.getWorldTranslation().x < -100) {
+            if (currentBuilding.getWorldTranslation().x < -200) {
                 currentBuilding.removeFromParent();
-                
+                //placeBuildingSet(currentBuilding);
                 p.setScore(p.getScore()+1);
                 p.setMoveSpeed(p.getMoveSpeed()+1f);
                 
