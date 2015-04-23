@@ -5,6 +5,7 @@
 package mygame;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.collision.CollisionResults;
 import com.jme3.math.Vector2f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
@@ -77,6 +78,19 @@ public class BuildingManager {
         
         Player p        = app.getStateManager().getState(GameManager.class)
                         .getPlayerManager().getPlayer();
+        
+        CollisionResults results = new CollisionResults();
+        
+        buildingNode.collideWith(p.getWorldBound(), results);
+        
+        if (results.size() > 0) {
+            p.setIsDead(true);
+            p.getGui().showMenu();
+            buildingNode.detachAllChildren();
+            previousSet = null;
+            p.setScore(0);
+            p.setMoveSpeed(50);
+        }
         
         float moveSpeed = p.getMoveSpeed();
         

@@ -148,7 +148,6 @@ public class Gui {
                 scoreDisplay.showWithEffect();
                 startPressed   = true;
                 startPressTime = System.currentTimeMillis();
-                startButton.setText("Restart");
         
             }
         
@@ -180,6 +179,12 @@ public class Gui {
         scoreDisplay.setText("Score: " + player.getScore());
     }
     
+    public void showMenu() {
+        scoreDisplay.hideWithEffect();
+        titleText.showWithEffect();
+        startButton.showWithEffect();
+    }
+    
     public void update(float tpf) {
     
         if (!player.isDead()) {
@@ -191,6 +196,8 @@ public class Gui {
             if(System.currentTimeMillis()/100 - startPressTime/100 > 22) {
                 startPressed = false;
                 player.setIsDead(false);
+                startButton.setText("Restart");
+                titleText.setText("Game Over");
             }
         
     }
