@@ -26,7 +26,7 @@ public class Gui {
     
     private TextElement       scoreDisplay;
     private TextElement       titleText;
-    private ButtonAdapter     startButton;
+    private ButtonAdapter     startButton, arcadeButton, classicButton;
     private Screen            screen;
     private SimpleApplication app;
     private Player            player;
@@ -40,7 +40,8 @@ public class Gui {
         createTitleText();
         createScoreDisplay();
         createStartButton();
-        
+        createClassicButton();
+        createArcadeButton();
         startPressTime = System.currentTimeMillis();
         
     }
@@ -54,6 +55,10 @@ public class Gui {
         app.getGuiNode().addControl(screen);
         
     }    
+    
+    public Screen getScreen() {
+        return screen;
+    }
     
     private void createTitleText() {
         
@@ -139,15 +144,13 @@ public class Gui {
             @Override
             public void onButtonMouseLeftUp(MouseButtonEvent evt, boolean toggled) {
         
-                if (startPressed) {
+                if (arcadeButton.getIsVisible()) {
                     return;
-                }
+                } 
                 
                 hideWithEffect();
-                titleText.hideWithEffect();
-                scoreDisplay.showWithEffect();
-                startPressed   = true;
-                startPressTime = System.currentTimeMillis();
+                arcadeButton.showWithEffect();
+                classicButton.showWithEffect();
         
             }
         
@@ -166,7 +169,7 @@ public class Gui {
         startButton.addEffect(showEffect);
         startButton.addEffect(hideEffect); 
         
-        startButton.setDimensions(screen.getWidth()/5f, screen.getHeight()/10);
+        startButton.setDimensions(screen.getWidth()/3f, screen.getHeight()/10);
         startButton.setPosition(screen.getWidth()/2 - startButton.getWidth()/2, screen.getHeight()/2 -  startButton.getHeight()/2);
         
         screen.addElement(startButton);
@@ -174,6 +177,101 @@ public class Gui {
         startButton.setText("Start");
         
     }
+    
+    private void createArcadeButton() {
+        
+        BitmapFont font = app.getAssetManager().loadFont("Interface/Impact.fnt");
+        
+        arcadeButton = new ButtonAdapter(screen, "Arcade Button", new Vector2f(2,2)) {
+        
+            @Override
+            public void onButtonMouseLeftUp(MouseButtonEvent evt, boolean toggled) {
+        
+                if (startPressed) {
+                    return;
+                }
+                
+                player.setTopDown(true);
+                hideWithEffect();
+                classicButton.hideWithEffect();
+                titleText.hideWithEffect();
+                scoreDisplay.showWithEffect();
+                startPressed   = true;
+                startPressTime = System.currentTimeMillis();
+        
+            }
+        
+        };
+        
+        Material m        = app.getAssetManager().loadMaterial("Materials/Transparent.j3m");
+        Effect showEffect = new Effect(EffectType.SlideIn, EffectEvent.Show, 2.2f);
+        Effect hideEffect = new Effect(EffectType.SlideOut, EffectEvent.Hide, 2.2f);        
+       
+        showEffect.setEffectDirection(EffectDirection.Left);
+        hideEffect.setEffectDirection(EffectDirection.Right);
+        
+        arcadeButton.setFont("Interface/Impact.fnt");
+        arcadeButton.setFontSize(font.getPreferredSize());
+        
+        arcadeButton.addEffect(showEffect);
+        arcadeButton.addEffect(hideEffect); 
+        
+        arcadeButton.setDimensions(screen.getWidth()/3f, screen.getHeight()/10);
+        arcadeButton.setPosition(screen.getWidth()/2 - arcadeButton.getWidth()/2, screen.getHeight()/2 -  arcadeButton.getHeight()/2);
+        
+        screen.addElement(arcadeButton);
+        arcadeButton.setMaterial(m);
+        arcadeButton.setText("Arcade");
+        arcadeButton.hide();
+        
+    }    
+    
+    private void createClassicButton() {
+        
+        BitmapFont font = app.getAssetManager().loadFont("Interface/Impact.fnt");
+        
+        classicButton = new ButtonAdapter(screen, "Classic Button", new Vector2f(2,2)) {
+        
+            @Override
+            public void onButtonMouseLeftUp(MouseButtonEvent evt, boolean toggled) {
+        
+                if (startPressed) {
+                    return;
+                }
+                
+                player.setTopDown(false);
+                hideWithEffect();
+                arcadeButton.hideWithEffect();
+                titleText.hideWithEffect();
+                scoreDisplay.showWithEffect();
+                startPressed   = true;
+                startPressTime = System.currentTimeMillis();
+        
+            }
+        
+        };
+        
+        Material m        = app.getAssetManager().loadMaterial("Materials/Transparent.j3m");
+        Effect showEffect = new Effect(EffectType.SlideIn, EffectEvent.Show, 2.2f);
+        Effect hideEffect = new Effect(EffectType.SlideOut, EffectEvent.Hide, 2.2f);        
+       
+        showEffect.setEffectDirection(EffectDirection.Left);
+        hideEffect.setEffectDirection(EffectDirection.Right);
+        
+        classicButton.setFont("Interface/Impact.fnt");
+        classicButton.setFontSize(font.getPreferredSize());
+        
+        classicButton.addEffect(showEffect);
+        classicButton.addEffect(hideEffect); 
+        
+        classicButton.setDimensions(screen.getWidth()/3f, screen.getHeight()/10);
+        classicButton.setPosition(screen.getWidth()/2 - classicButton.getWidth()/2, screen.getHeight()/2 + classicButton.getHeight());
+        
+        screen.addElement(classicButton);
+        classicButton.setMaterial(m);
+        classicButton.setText("Classic");
+        classicButton.hide();
+    }        
     
     private void updateScoreDisplay() {
         scoreDisplay.setText("Score: " + player.getScore());

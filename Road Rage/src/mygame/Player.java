@@ -20,6 +20,7 @@ public class Player extends Node {
     private float   moveSpeed;
     private float   shake;
     private Gui     gui;
+    private boolean topDown;
     
     public Player(SimpleApplication app) {
         setModel(app);
@@ -89,6 +90,14 @@ public class Player extends Node {
     
     public boolean isDead() {
         return isDead;
+    }
+    
+    public void setTopDown(boolean newVal) {
+        topDown = newVal;
+    }
+    
+    public boolean getTopDown() {
+        return topDown;
     }
     
 }

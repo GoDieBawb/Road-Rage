@@ -5,6 +5,7 @@
 package mygame;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.math.Vector3f;
 import java.util.Random;
 
 /**
@@ -13,7 +14,7 @@ import java.util.Random;
  */
 public class PlayerManager {
     
-    private Player player;
+    private Player            player;
     private SimpleApplication app;
     private Long              lastShakeChange;
     
@@ -43,11 +44,20 @@ public class PlayerManager {
         int randomNum = rand.nextInt((max - min) + 1) + min;
         return randomNum;
         
-    }       
+    }  
     
     public void update(float tpf) {
         
-        app.getCamera().setLocation(player.getWorldTranslation().clone().add(-10,4,0));
+        if(player.getTopDown()) {
+            app.getCamera().setLocation(player.getWorldTranslation().clone().add(0,60,0));
+            app.getCamera().lookAt(player.getWorldTranslation(), new Vector3f(0,0,-1));
+        }
+        
+        else {
+            app.getCamera().setLocation(player.getWorldTranslation().clone().add(-10,4,0));
+            app.getCamera().lookAt(player.getWorldTranslation(), new Vector3f(0,1,0));
+        }
+        
         float turnSpeed = 10;
         
         if (player.getRight()) {
