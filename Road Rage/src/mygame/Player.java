@@ -1,10 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package mygame;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.app.state.AppStateManager;
 import com.jme3.material.Material;
 import com.jme3.scene.Node;
 
@@ -21,9 +18,11 @@ public class Player extends Node {
     private float   shake;
     private Gui     gui;
     private boolean topDown;
+    private ScoreManager scoreManager;
     
     public Player(SimpleApplication app) {
         setModel(app);
+        createScoreManager(app.getStateManager());
         gui       = new Gui(app, this);
         moveSpeed = 50;
         isDead    = true;
@@ -98,6 +97,14 @@ public class Player extends Node {
     
     public boolean getTopDown() {
         return topDown;
+    }
+    
+    private void createScoreManager(AppStateManager stateManager) {
+        scoreManager = new ScoreManager(stateManager);
+    }
+    
+    public ScoreManager getScoreManager() {
+        return scoreManager;
     }
     
 }

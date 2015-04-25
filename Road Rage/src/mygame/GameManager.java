@@ -17,12 +17,14 @@ public class GameManager extends AbstractAppState {
     private PlayerManager       playerManager;
     private InteractionManager  interactionManager;
     private SceneManager        sceneManager;
+    private YamlManager         yamlManager;
     
     public GameManager(SimpleApplication app) {
         this.app = app;
         createPlayerManager();
         createInteractionManager();
         createSceneManager();
+        createYamlManager();
     }
     
     private void createPlayerManager() {
@@ -39,6 +41,14 @@ public class GameManager extends AbstractAppState {
     
     private void createSceneManager() {
         sceneManager = new SceneManager(app, playerManager);
+    }
+    
+    private void createYamlManager() {
+        yamlManager = new YamlManager();
+    }
+    
+    public YamlManager getYamlManager() {
+        return yamlManager;
     }
     
     @Override

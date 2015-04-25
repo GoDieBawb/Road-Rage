@@ -23,16 +23,13 @@ public class InteractionManager implements ActionListener {
   private Player         player;
   private boolean        left = false, right = false, click = false;
   
-  public InteractionManager(Application app, PlayerManager playerManager) {
+    public InteractionManager(Application app, PlayerManager playerManager) {
      this.inputManager = app.getInputManager();
      player            = playerManager.getPlayer(); 
      setUpKeys();
-     
   }
 
-    
-
-  private void setUpKeys() {
+    private void setUpKeys() {
   
       inputManager.addMapping("Left",  new KeyTrigger(KeyInput.KEY_A));
       inputManager.addMapping("Right", new KeyTrigger(KeyInput.KEY_D));
@@ -45,8 +42,8 @@ public class InteractionManager implements ActionListener {
   
   }
     
-  @Override
-  public void onAction(String binding, boolean isPressed, float tpf) {
+    @Override
+    public void onAction(String binding, boolean isPressed, float tpf) {
   
       if (binding.equals("Click")) {
           click = isPressed;
@@ -90,6 +87,6 @@ public class InteractionManager implements ActionListener {
           player.setRight(isPressed);
       }
       
-  }
+    }
     
 }

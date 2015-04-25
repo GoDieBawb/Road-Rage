@@ -274,7 +274,41 @@ public class Gui {
     }        
     
     private void updateScoreDisplay() {
+        
         scoreDisplay.setText("Score: " + player.getScore());
+        
+        if (player.getTopDown()) {
+        
+            if(player.getScore() > player.getScoreManager().getArcadeHighScore()) {
+        
+                scoreDisplay.setFontColor(ColorRGBA.Yellow);
+        
+            }
+        
+            else {
+        
+                scoreDisplay.setFontColor(ColorRGBA.White);
+            
+            }
+        
+        }
+        
+        else {
+        
+            if(player.getScore() > player.getScoreManager().getClassicHighScore()) {
+        
+                scoreDisplay.setFontColor(ColorRGBA.Yellow);
+        
+            }
+        
+            else {
+        
+                scoreDisplay.setFontColor(ColorRGBA.White);
+            
+            }
+        
+        }        
+        
     }
     
     public void showMenu() {

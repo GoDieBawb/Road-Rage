@@ -88,6 +88,21 @@ public class BuildingManager {
             p.getGui().showMenu();
             buildingNode.detachAllChildren();
             previousSet = null;
+            
+            if(p.getTopDown()) {
+                
+                if (p.getScore() > p.getScoreManager().getArcadeHighScore()) 
+                    p.getScoreManager().saveNewArcadeHighScore(p.getScore());
+                
+            }
+            
+            else {
+                
+                if(p.getScore() > p.getScoreManager().getClassicHighScore())
+                    p.getScoreManager().saveNewClassicHighScore(p.getScore());
+                
+            }
+            
             p.setScore(0);
             p.setMoveSpeed(50);
         }
