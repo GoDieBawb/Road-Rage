@@ -25,8 +25,8 @@ import tonegod.gui.effects.Effect.EffectType;
 public class Gui {
     
     private TextElement       scoreDisplay;
-    private TextElement       titleText;
-    private ButtonAdapter     startButton, arcadeButton, classicButton;
+    private TextElement       titleText, arcadeHighScoreText, classicHighScoreText;
+    private ButtonAdapter     startButton, arcadeButton, classicButton, highScoreButton, backButton;
     private Screen            screen;
     private SimpleApplication app;
     private Player            player;
@@ -34,6 +34,7 @@ public class Gui {
     private boolean           startPressed;
     
     public Gui(SimpleApplication app, Player player) {
+        
         this.app    = app;
         this.player = player;
         createScreen();
@@ -42,6 +43,10 @@ public class Gui {
         createStartButton();
         createClassicButton();
         createArcadeButton();
+        createHighScoreButton();
+        createArcadeHighScoreText();
+        createClassicHighScoreText();
+        createBackButton();
         startPressTime = System.currentTimeMillis();
         
     }
@@ -91,11 +96,87 @@ public class Gui {
         titleText.addEffect(showEffect);
         titleText.setTextAlign(BitmapFont.Align.Center);
         screen.addElement(titleText);
-        titleText.setText("Road Rage"); 
+        titleText.setText("Stuntman"); 
         titleText.setDimensions(screen.getWidth()/2, screen.getWidth()/4);
         titleText.setPosition(screen.getWidth()/2f - titleText.getWidth()/5, screen.getHeight() / 2f + titleText.getHeight()/2);
         
     }
+    
+    private void createArcadeHighScoreText() {
+        
+        BitmapFont font = app.getAssetManager().loadFont("Interface/Impact.fnt");
+        
+        arcadeHighScoreText = new TextElement(screen, "Arcade HighScore Text", new Vector2f(2,2), font) {
+            
+            @Override
+            public void onUpdate(float tpf){}
+            
+            @Override
+            public void onEffectStop(){
+            }
+            
+            @Override
+            public void onEffectStart(){
+            }
+            
+        };
+        
+        Effect showEffect = new Effect(EffectType.SlideIn, EffectEvent.Show, 2.2f);
+        Effect hideEffect = new Effect(EffectType.SlideOut, EffectEvent.Hide, 2.2f);
+        
+        showEffect.setEffectDirection(EffectDirection.Left);
+        hideEffect.setEffectDirection(EffectDirection.Right);
+        
+        arcadeHighScoreText.setFontSize(font.getPreferredSize());
+        //arcadeHighScoreText.setFontColor(ColorRGBA.Red);
+        arcadeHighScoreText.addEffect(hideEffect);
+        arcadeHighScoreText.addEffect(showEffect);
+        arcadeHighScoreText.setTextAlign(BitmapFont.Align.Center);
+        screen.addElement(arcadeHighScoreText);
+        arcadeHighScoreText.setText("Arcade HighScore: " + player.getScoreManager().getArcadeHighScore());
+        arcadeHighScoreText.setDimensions(screen.getWidth()/2, screen.getWidth()/4);
+        arcadeHighScoreText.setPosition(screen.getWidth()/2f - arcadeHighScoreText.getWidth()/5, screen.getHeight() / 2f);
+        arcadeHighScoreText.hide();
+        
+    }    
+    
+    private void createClassicHighScoreText() {
+        
+        BitmapFont font = app.getAssetManager().loadFont("Interface/Impact.fnt");
+        
+        classicHighScoreText = new TextElement(screen, "Classic HighScore Text", new Vector2f(2,2), font) {
+            
+            @Override
+            public void onUpdate(float tpf){}
+            
+            @Override
+            public void onEffectStop(){
+            }
+            
+            @Override
+            public void onEffectStart(){
+            }
+            
+        };
+        
+        Effect showEffect = new Effect(EffectType.SlideIn, EffectEvent.Show, 2.2f);
+        Effect hideEffect = new Effect(EffectType.SlideOut, EffectEvent.Hide, 2.2f);
+        
+        showEffect.setEffectDirection(EffectDirection.Left);
+        hideEffect.setEffectDirection(EffectDirection.Right);
+        
+        classicHighScoreText.setFontSize(font.getPreferredSize());
+        //classicHighScoreText.setFontColor(ColorRGBA.Red);
+        classicHighScoreText.addEffect(hideEffect);
+        classicHighScoreText.addEffect(showEffect);
+        classicHighScoreText.setTextAlign(BitmapFont.Align.Center);
+        screen.addElement(classicHighScoreText);
+        classicHighScoreText.setText("Classic HighScore: " + player.getScoreManager().getClassicHighScore());
+        classicHighScoreText.setDimensions(screen.getWidth()/2, screen.getWidth()/4);
+        classicHighScoreText.setPosition(screen.getWidth()/2f - classicHighScoreText.getWidth()/5, screen.getHeight() / 2f - classicHighScoreText.getHeight()/2);
+        classicHighScoreText.hide();
+        
+    }    
     
     private void createScoreDisplay() {
     
@@ -149,6 +230,8 @@ public class Gui {
                 } 
                 
                 hideWithEffect();
+                backButton.showWithEffect();
+                highScoreButton.hideWithEffect();
                 arcadeButton.showWithEffect();
                 classicButton.showWithEffect();
         
@@ -178,6 +261,95 @@ public class Gui {
         
     }
     
+    private void createHighScoreButton() {
+    
+        BitmapFont font = app.getAssetManager().loadFont("Interface/Impact.fnt");
+        
+        highScoreButton = new ButtonAdapter(screen, "HighScore Button", new Vector2f(2,2)) {
+        
+            @Override
+            public void onButtonMouseLeftUp(MouseButtonEvent evt, boolean toggled) {
+        
+                if (arcadeButton.getIsVisible()) {
+                    return;
+                } 
+                
+                hideWithEffect();
+                backButton.showWithEffect();
+                arcadeHighScoreText.showWithEffect();
+                classicHighScoreText.showWithEffect();
+                startButton.hideWithEffect();
+        
+            }
+        
+        };
+        
+        Material m        = app.getAssetManager().loadMaterial("Materials/Transparent.j3m");
+        Effect showEffect = new Effect(EffectType.SlideIn, EffectEvent.Show, 2.2f);
+        Effect hideEffect = new Effect(EffectType.SlideOut, EffectEvent.Hide, 2.2f);        
+       
+        showEffect.setEffectDirection(EffectDirection.Left);
+        hideEffect.setEffectDirection(EffectDirection.Right);
+        
+        highScoreButton.setFont("Interface/Impact.fnt");
+        highScoreButton.setFontSize(font.getPreferredSize());
+        
+        highScoreButton.addEffect(showEffect);
+        highScoreButton.addEffect(hideEffect); 
+        
+        highScoreButton.setDimensions(screen.getWidth()/2.5f, screen.getHeight()/10);
+        highScoreButton.setPosition(screen.getWidth()/2 - highScoreButton.getWidth()/2, screen.getHeight()/2 + highScoreButton.getHeight());
+        
+        screen.addElement(highScoreButton);
+        highScoreButton.setMaterial(m);
+        highScoreButton.setText("HighScores");
+    
+    }
+    
+    private void createBackButton() {
+    
+        BitmapFont font = app.getAssetManager().loadFont("Interface/Impact.fnt");
+        
+        backButton = new ButtonAdapter(screen, "Back Button", new Vector2f(2,2)) {
+        
+            @Override
+            public void onButtonMouseLeftUp(MouseButtonEvent evt, boolean toggled) {
+                
+                hideWithEffect();
+                arcadeHighScoreText.hideWithEffect();
+                classicHighScoreText.hideWithEffect();
+                highScoreButton.showWithEffect();
+                startButton.showWithEffect();
+                arcadeButton.hideWithEffect();
+                classicButton.hideWithEffect();
+        
+            }
+        
+        };
+        
+        Material m        = app.getAssetManager().loadMaterial("Materials/Transparent.j3m");
+        Effect showEffect = new Effect(EffectType.SlideIn, EffectEvent.Show, 2.2f);
+        Effect hideEffect = new Effect(EffectType.SlideOut, EffectEvent.Hide, 2.2f);        
+       
+        showEffect.setEffectDirection(EffectDirection.Left);
+        hideEffect.setEffectDirection(EffectDirection.Right);
+        
+        backButton.setFont("Interface/Impact.fnt");
+        backButton.setFontSize(font.getPreferredSize());
+        
+        backButton.addEffect(showEffect);
+        backButton.addEffect(hideEffect); 
+        
+        backButton.setDimensions(screen.getWidth()/2.5f, screen.getHeight()/10);
+        backButton.setPosition(0 - backButton.getWidth()/5, 0);
+        
+        screen.addElement(backButton);
+        backButton.setMaterial(m);
+        backButton.setText("Back");
+        backButton.hide();
+    
+    }    
+    
     private void createArcadeButton() {
         
         BitmapFont font = app.getAssetManager().loadFont("Interface/Impact.fnt");
@@ -191,6 +363,7 @@ public class Gui {
                     return;
                 }
                 
+                backButton.hideWithEffect();
                 player.setTopDown(true);
                 hideWithEffect();
                 classicButton.hideWithEffect();
@@ -230,7 +403,7 @@ public class Gui {
         
         BitmapFont font = app.getAssetManager().loadFont("Interface/Impact.fnt");
         
-        classicButton = new ButtonAdapter(screen, "Classic Button", new Vector2f(2,2)) {
+        classicButton   = new ButtonAdapter(screen, "Classic Button", new Vector2f(2,2)) {
         
             @Override
             public void onButtonMouseLeftUp(MouseButtonEvent evt, boolean toggled) {
@@ -241,6 +414,7 @@ public class Gui {
                 
                 player.setTopDown(false);
                 hideWithEffect();
+                backButton.hideWithEffect();
                 arcadeButton.hideWithEffect();
                 titleText.hideWithEffect();
                 scoreDisplay.showWithEffect();
@@ -271,6 +445,7 @@ public class Gui {
         classicButton.setMaterial(m);
         classicButton.setText("Classic");
         classicButton.hide();
+        
     }        
     
     private void updateScoreDisplay() {
@@ -315,6 +490,7 @@ public class Gui {
         scoreDisplay.hideWithEffect();
         titleText.showWithEffect();
         startButton.showWithEffect();
+        highScoreButton.showWithEffect();
     }
     
     public void update(float tpf) {
@@ -328,8 +504,6 @@ public class Gui {
             if(System.currentTimeMillis()/100 - startPressTime/100 > 22) {
                 startPressed = false;
                 player.setIsDead(false);
-                startButton.setText("Restart");
-                titleText.setText("Game Over");
             }
         
     }
