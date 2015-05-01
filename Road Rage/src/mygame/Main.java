@@ -17,6 +17,9 @@ public class Main extends SimpleApplication {
 
     @Override
     public void simpleInitApp() {
+        setShowSettings(false);
+        setDisplayFps(false);
+        setDisplayStatView(false);
         getCamera().setLocation(new Vector3f(-15, 5.5f, 0));
         getFlyByCamera().setMoveSpeed(10);
         getFlyByCamera().setEnabled(false);

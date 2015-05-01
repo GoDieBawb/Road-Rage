@@ -62,13 +62,15 @@ public class PlayerManager {
         
         if (player.getRight()) {
         
-            player.move(0,0,turnSpeed*tpf);
+            if (player.getWorldTranslation().z < 6)
+                player.move(0,0,turnSpeed*tpf);
             
         }
         
         if (player.getLeft()) {
         
-            player.move(0,0,-turnSpeed*tpf);
+            if (player.getWorldTranslation().z > -6)
+                player.move(0,0,-turnSpeed*tpf);
             
         }
         
