@@ -55,7 +55,7 @@ public class Gui {
         
         screen = new Screen(app, "tonegod/gui/style/atlasdef/style_map.gui.xml");
         screen.setUseTextureAtlas(true,"tonegod/gui/style/atlasdef/atlas.png");
-        screen.setUseMultiTouch(true);
+        //screen.setUseMultiTouch(true);
         app.getInputManager().setSimulateMouse(true);
         app.getGuiNode().addControl(screen);
         

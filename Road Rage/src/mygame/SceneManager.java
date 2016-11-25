@@ -41,7 +41,7 @@ public class SceneManager {
     
         roadLength       = 100;
         Material   mat   = app.getAssetManager().loadMaterial("Materials/Road.j3m");
-        Box box          = new Box(roadLength,2,8);
+        Box box          = new Box(roadLength,2,10);
         Geometry cube1   = new Geometry("Geometry", box);
         Geometry cube2   = new Geometry("Geometry", box);
                  ground1 = new Node("Ground One");

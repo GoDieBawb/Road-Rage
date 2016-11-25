@@ -50,8 +50,12 @@ public class BuildingManager {
         geom1.setMaterial(app.getAssetManager().loadMaterial("Materials/Building" + randInt(1,4) + ".j3m"));
         leftBuilding.attachChild(geom);
         rightBuilding.attachChild(geom1);
-        rightBuilding.setLocalTranslation(0,6,16 - randInt(0,4));
-        leftBuilding.setLocalTranslation(0,6,-16 + randInt(0,4));
+        
+        float rightShift = randInt(20,40)/10;
+        float leftShift  = randInt(20,40)/10;
+        
+        rightBuilding.setLocalTranslation(0,6,16 - rightShift);
+        leftBuilding.setLocalTranslation(0,6,-16 + leftShift);
         buildingSet.attachChild(leftBuilding);
         buildingSet.attachChild(rightBuilding);
         placeBuildingSet(buildingSet);
@@ -76,8 +80,7 @@ public class BuildingManager {
     
     public void update(float tpf) {
         
-        Player p        = app.getStateManager().getState(GameManager.class)
-                        .getPlayerManager().getPlayer();
+        Player p = app.getStateManager().getState(GameManager.class).getPlayerManager().getPlayer();
         
         CollisionResults results = new CollisionResults();
         
@@ -132,6 +135,9 @@ public class BuildingManager {
                 //placeBuildingSet(currentBuilding);
                 p.setScore(p.getScore()+1);
                 p.setMoveSpeed(p.getMoveSpeed()+1f);
+                
+                if (p.getScore()%5 == 0 )
+                    p.setMoveSpeed(p.getMoveSpeed()+1);
                 
             } 
             
